@@ -81,4 +81,42 @@ RSpec.describe "Cats", type: :request do
 
   end
 
+  it "doesn't create a cat without a name" do
+    cat_params = {
+      cat: {
+        age: 7,
+        enjoys: 'Meow Mix, and plenty of sunshine.'
+      }
+    }
+
+    # Send the request to the server
+    post '/cats', params: cat_params
+
+    expect(response).to have_http_status(422)
+
+    json = JSON.parse(response.body)
+
+    expect(json['name']).to include "can't be blank"
+
+  end
+
+  it "updates an enjoys string too short" do
+
+    cat_params = {
+      cat: {
+        name: 'Buster',
+        age: 7,
+        enjoys: 'Meow Mix'
+      }
+    }
+
+    # Send the request to the server
+    post '/cats', params: cat_params
+
+    cat = Cat.first
+
+    expect(response).to_not have_http_status(:ok)
+
+  end
+
 end

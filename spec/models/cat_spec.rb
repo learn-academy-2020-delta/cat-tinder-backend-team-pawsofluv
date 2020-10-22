@@ -18,4 +18,20 @@ RSpec.describe Cat, type: :model do
     expect(my_cat.name).to eq 'Snookums'
   end
 
+  it 'should validate name' do
+    cat = Cat.create
+    expect(cat.errors[:name]).to_not be_empty
+  end
+
+  it 'should validate age' do
+    cat = Cat.create
+    expect(cat.errors[:age]).to_not be_empty
+  end
+
+  it 'should validate enjoys' do
+    cat = Cat.create
+    expect(cat.errors[:enjoys]).to_not be_empty
+  end
+
+
 end
